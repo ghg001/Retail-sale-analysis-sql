@@ -42,7 +42,7 @@ or  total_sale is null
 
 --data exploration
 
---numbers od sales made
+--numbers of sales made
 SELECT COUNT (*) total_sale 
 from Retail_sales
 
@@ -72,6 +72,9 @@ SELECT sale_date,total_sale
 from Retail_sales
 where sale_date = '2022-11-05';
 
+
+
+--- clothing sales and quantity >= 4 for the month of november
 select *
 from Retail_sales
 where category ='Clothing' 
@@ -121,7 +124,7 @@ select year,month,avg_sale from
 
 select * 
 from Retail_sales;
-
+--top 5 cutomers
 select customer_id,sum(total_sale) as sales
 from Retail_sales
 group by  customer_id
@@ -129,20 +132,22 @@ order by sales desc
 limit 5
 
 
---write a query to find the number of each customer who purchased item from each category
+-- number of each customer who purchased item from each category
 select category,count(distinct(customer_id)) as distinct_customers
 from Retail_sales
 group by category.
 
-
+--time of the day numbers of order
 with hourly_sale as
 (select *, 
 	case
 	when extract (hour from sale_time) <12 then 'morning'
 	when extract (hour from sale_time) between 12 and 17 then 'afternoon'
 	else 'evening'
-	end as shift)
-	from Retail_sales
+	end as shift
+	from Retail_sales)
+	select shift,count(shift)from hourly_sale
+	group by shift
 	
 
 
